@@ -3,7 +3,6 @@ const routes = require('./routes-config/routes');
 const cors = require('cors');
 const config = require('./config/default.json');
 const MYSQL = require('./services/mysql');
-
 if (config.CLUSTER_MODE == true) {
     const cluster = require('cluster');
     const numCPUs = require('os').cpus().length;
@@ -15,7 +14,6 @@ if (config.CLUSTER_MODE == true) {
         });
     } else init();
 } else init();
-
 function init() {
     const app = express();
     app.use(cors());
