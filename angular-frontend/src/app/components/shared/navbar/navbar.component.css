@@ -1,0 +1,17 @@
+.navbar {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    background-color: #a6220a !important;
+}
+.nav-link.active {
+    margin-left: 12px;
+    border-bottom:3px solid rgba(0, 0, 0, 0.404);
+}
+.form-control {
+    width: 320px;
+    margin-left: 20px;
+}
+
+.dropdown-menu {
+    margin-left: -38px !important;
+}

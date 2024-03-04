@@ -1,11 +1,11 @@
 // const auth = require("../middleware/auth");
 // const _ = require("lodash");
-const { validate, findUser, encryptedPassword, saveUser, findAll, deActivateUser, activateUser, deleteUser, findUserByUsername } = require("../models/user");
+const userModel = require("../models/user");
 const express = require("express");
 const router = express.Router();
 
 router.get("", async (req, res) => {
-  const users = await findAll();
+  const users = await userModel.findAll();
   users.forEach(x => {
     x.created_at = new Date(x.created_at).toLocaleString();
     x.updated_at = new Date(x.updated_at).toLocaleString();
@@ -16,7 +16,7 @@ router.get("", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const user = await findUser(req.params.id);
+  const user = await userModel.findUser(req.params.id);
   if (!user)
     return res
       .status(404)
@@ -29,10 +29,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = userModel.validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const queryResult = await findUserByUsername(req.body.username);
+  const queryResult = await userModel.findUserByUsername(req.body.username);
   if (queryResult) return res.status(400).send("User already registered.");
   const encryptPassword = await encryptedPassword(req.body.password);
 
@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
     is_admin: req.body.is_admin,
   };
 
-  const insertId = await saveUser(newUser);
+  const insertId = await userModel.saveUser(newUser);
   newUser.id = insertId;
   res
     .send({
@@ -60,7 +60,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.put("/disable/:id", async (req, res) => {
-  const rowsAffected = await deActivateUser(
+  const rowsAffected = await userModel.deActivateUser(
     req.params.id,
     req.body
   );
@@ -75,7 +75,7 @@ router.put("/disable/:id", async (req, res) => {
 });
 
 router.put("/activate/:id", async (req, res) => {
-  const rowsAffected = await activateUser(
+  const rowsAffected = await userModel.activateUser(
     req.params.id,
     req.body
   );
@@ -90,7 +90,7 @@ router.put("/activate/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const rowsAffected = await deleteUser(req.params.id);
+  const rowsAffected = await userModel.deleteUser(req.params.id);
   if (rowsAffected == false) {
     return res
     .status(404)
