@@ -56,6 +56,7 @@ import { VehiclesInspectionNewComponent } from './components/pages/vehicles/vehi
       { path: 'auth/manage', component: UsersComponent },
       { path: 'employees', component: EmployeesListComponent },
       { path: 'vehicles', component: VehiclesListComponent },
+      { path: 'companies', component: CompaniesListComponent },
     ])
   ],
   providers: [],
